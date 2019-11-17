@@ -3,19 +3,19 @@
 ***
 
 ## 1) What is 振华TODAY
-#### 1.1 A brief introduction
+### 1.1 A brief introduction
 [振华TODAY](http://zhenhuatoday.com) is a **website** that shows the **school meals** of [沧州振华国际学校](http://www.pk-edu.com/) in advance.
-#### 1.2 History
+### 1.2 History
 - [振华TODAY](http://zhenhuatoday.com) was first planned in **June 2019**.
 - [振华TODAY](http://zhenhuatoday.com) was officially deployed on **Oct 9, 2019**, and the number of visitors of this date was **99**.
-#### 1.3 Who made it
+### 1.3 Who made it
 **Kim Hoojun** was in charge of ***planning***, ***designing***, and ***developing*** the project.
 ***
 
 ## 2) Why I made 振华TODAY
-#### 2.1 Convenience of students
+### 2.1 Convenience of students
 `"I decided to develop a website when I saw that students were inconvenient not knowing the school meals"`
-#### 2.2 Improvement of the quality of the school meals
+### 2.2 Improvement of the quality of the school meals
 ![vicious cycle](img/vicious_cycle.png)
 `->Because the quality of food is low, nobody comes to eat.`
 `->Because nobody comes to eat, waste of food increases.`
@@ -25,18 +25,18 @@
 ***
 
 ## 3) How I made 振华TODAY
-#### 3.1 Programming languages
+### 3.1 Programming languages
 - **HTML**
 - **CSS**
 - **Javascript**
 - **PHP**
 > I didn't use any libraries or frameworks (except one line for JQUERY)
-#### 3.2 Development tools
+### 3.2 Development tools
 - [Visual Studio Code](https://code.visualstudio.com/) for **code editor**
 - [FileZilla](https://filezilla-project.org/) for **FTP**
 - [Google Chrome](https://www.google.com/intl/ko/chrome/) for **web browser**
 - [Git](https://git-scm.com/) and [Github](https://github.com/) for **version management**
-#### 3.3 Others
+### 3.3 Others
 - [Whois](http://whois.co.kr/) for **domain**
 - [Cafe24](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwjC5a6tzPDlAhVBPmAKHUZsCV8YABAAGgJ0bQ&ohost=www.google.com&cid=CAASE-RozymF0NeQotZvWTJDiA5uV8A&sig=AOD64_2wpBYJkE6CNOYCeCZdDhISj6U-yQ&q=&ved=2ahUKEwjt46etzPDlAhXyyosBHROIB-8Q0Qx6BAgPEAE&adurl=) for **hosting**
 - [My mom]() and [dad]() for **supporting me**
