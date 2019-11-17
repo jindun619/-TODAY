@@ -1,0 +1,118 @@
+<div id="body">
+    <div id="container">
+        <?
+            /*퇴물
+            $v = 0;
+            foreach ($final_array as $key => $value) {
+                if (!isset($value)) {
+                   $v++; 
+                }
+            }
+
+
+            if ($v !== 6) {      //메뉴 등록이 되어있을 경우
+                $a = 0;
+                 while (isset($final_array[$a])) {
+                $b = $a + 3;
+                $c = $now_array[$b]['img'];
+                echo   "<div class='menu_box'>
+                        <div class='name_box'>".$final_array[$a]."</div>
+                        <div class='pic_box'><img src='food_img/$c'></div>
+                        </div>";
+                $a++;
+                }
+            } else {
+                echo "<div class='menu_box'>
+                        <div class='name_box'>".$words[5]."</div>
+                        <div class='pic_box'><img src='img/sorry.jfif'></div>
+                        </div>";
+            }
+            */
+            //breakfast
+
+            //Every Monday Notice
+            if ($_SESSION['set_dow'] == "Monday") {
+                echo "<div class='notice'>".$words[13]."</div>";
+            }
+            //temporary notice
+            if ($set_date == "2019-11-12") {
+                echo "<div class='notice'>".$words[18]."</div>";
+            }
+
+            //see food table
+            echo "<div class='notice'><a href ='http://zhenhuatoday.com/food_table.html'>".$words[17]."</a></div>";
+
+            //language  == Korean
+            if ($_SESSION['lang'] == "kor") {
+                echo "<div class='bld_box'>".$words[14]."</div>";
+                foreach ($bf as $key => $value) {
+                    if (isset($food[$value])) {
+                        $img =  $food[$value]['id'].".".$food[$value]['img_ext'];
+                        echo   "<div class='menu_box'>
+                                <div class='name_box'>".$food[$value]['kor_name']."</div>
+                                <div class='pic_box'><img src='food_img/$img'></div>
+                                </div>";
+                        }
+                }
+                //lunch
+                echo "<div class='bld_box'>".$words[15]."</div>";
+                foreach ($lc as $key => $value) {
+                    if (isset($food[$value])) {
+                        $img =  $food[$value]['id'].".".$food[$value]['img_ext'];
+                        echo   "<div class='menu_box'>
+                                <div class='name_box'>".$food[$value]['kor_name']."</div>
+                                <div class='pic_box'><img src='food_img/$img'></div>
+                                </div>";
+                        }
+                }
+                //dinner
+                echo "<div class='bld_box'>".$words[16]."</div>";
+                foreach ($dn as $key => $value) {
+                    if (isset($food[$value])) {
+                        $img =  $food[$value]['id'].".".$food[$value]['img_ext'];
+                        echo   "<div class='menu_box'>
+                                <div class='name_box'>".$food[$value]['kor_name']."</div>
+                                <div class='pic_box'><img src='food_img/$img'></div>
+                                </div>";
+                        }
+                }
+            }
+            //language == China
+            if ($_SESSION['lang'] == "cna") {
+                echo "<div class='bld_box'>".$words[14]."</div>";
+                foreach ($bf as $key => $value) {
+                    if (isset($food[$value])) {
+                        $img =  $food[$value]['id'].".".$food[$value]['img_ext'];
+                        echo   "<div class='menu_box'>
+                                <div class='name_box'>".$food[$value]['cna_name']."</div>
+                                <div class='pic_box'><img src='food_img/$img'></div>
+                                </div>";
+                        }
+                }
+                //lunch
+                echo "<div class='bld_box'>".$words[15]."</div>";
+                foreach ($lc as $key => $value) {
+                    if (isset($food[$value])) {
+                        $img =  $food[$value]['id'].".".$food[$value]['img_ext'];
+                        echo   "<div class='menu_box'>
+                                <div class='name_box'>".$food[$value]['cna_name']."</div>
+                                <div class='pic_box'><img src='food_img/$img'></div>
+                                </div>";
+                        }
+                }
+                //dinner
+                echo "<div class='bld_box'>".$words[16]."</div>";
+                foreach ($dn as $key => $value) {
+                    if (isset($food[$value])) {
+                        $img =  $food[$value]['id'].".".$food[$value]['img_ext'];
+                        echo   "<div class='menu_box'>
+                                <div class='name_box'>".$food[$value]['cna_name']."</div>
+                                <div class='pic_box'><img src='food_img/$img'></div>
+                                </div>";
+                        }
+                }
+            }
+            
+        ?>
+    </div>
+</div>

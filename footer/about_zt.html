@@ -1,0 +1,39 @@
+<?php
+    session_start();
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>About :: 振华today</title>
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://kit.fontawesome.com/6a9889b649.js"></script>
+</head>
+<body>
+    <div id="whole_wrapper">
+        <div id="head">
+            <a href="../index.html" class="bene">振华TODAY</a>
+        </div>
+        <div id="middle">
+            <span>About 振华today</span>
+        </div>
+        <div id="body">
+            <div class="bread">
+                <a href="../index.html">振华today</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="#">About 振华today</a>
+            </div>
+            <div id="vision_box">
+                <? if ($_SESSION['lang'] == "kor" or !isset($_SESSION['lang'])) {
+                    echo "<p>\" <span style=\"color:red;\">振华today</span>의 목표는 <span style=\"color:orange;\">모든 진화인</span>이 <span style=\"color:green;\">편리</span>하게 <span style=\"color:blue;\">급식을 확인</span>할 수 있도록 하는 것 입니다. \"</p>";
+                } else if($_SESSION['lang'] == "cna") {
+                    echo "<p>\" <span style=\"color:red;\">振华today</span>的目标是让<span style=\"color:orange;\">所有的振华人</span>都能<span style=\"color:green;\">方便</span>地<span style=\"color:blue;\">知道供餐</span>。 \"</p>";
+                } 
+                ?>
+            </div>
+        </div>
+        <?include "footer.html";?>
+    </div>
+</body>
+</html>

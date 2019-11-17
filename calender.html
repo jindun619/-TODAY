@@ -1,0 +1,63 @@
+<div id="cal_box">
+    <table>
+        <tr>
+            <td class="cal_days"><?echo $words[6];?></td>
+            <td class="cal_days"><?echo $words[7];?></td>
+            <td class="cal_days"><?echo $words[8];?></td>
+            <td class="cal_days"><?echo $words[9];?></td>
+            <td class="cal_days"><?echo $words[10];?></td>
+            <td class="cal_days"><?echo $words[11];?></td>
+            <td class="cal_days"><?echo $words[12];?></td>
+        </tr>
+        <?php
+            //include months library
+            include "months_lib.php";
+
+
+            //getting date
+
+
+            //data of this month
+            $first_date = $months_lib[$set_year][$set_month]['first_day']; //일1 월2 화3 수4 목5 금6 토7
+            $date_num = $months_lib[$set_year][$set_month]['date_num'];
+
+            //making a calender!!
+            $whole_writer = 1;
+            $liner = 1;
+            $date_writer = 1;
+            while ($liner <= 6) {
+                $seven_writer = 1;
+                echo "<tr>";
+                while ($seven_writer <= 7) {
+                    if ($date_writer <= $date_num) {
+                        if ($whole_writer < $first_date) {  //when it's not a day
+                            echo "<td class='rest_days'></td>";
+                            $whole_writer++;
+                            $seven_writer++;
+                        } else {
+                            if ($date_writer == substr($tdate, 8) && substr($tdate, 5, 2) == $set_month) {    //when it's today
+                                $sd_writer = $seven_writer.$date_writer;
+                                echo "<td><form class='today' method='POST' action='calender.php'><input class='today' type='submit' name='$sd_writer' value='$date_writer'></form></td>";
+                                $whole_writer++;
+                                $seven_writer++;
+                                $date_writer++;
+                            } else {
+                                $sd_writer = $seven_writer.$date_writer;
+                                echo "<td><form method='POST' action='calender.php'><input type='submit' name='$sd_writer' value='$date_writer'></form></td>";
+                                $whole_writer++;
+                                $seven_writer++;
+                                $date_writer++;
+                            }
+                        }
+                    } else {
+                        echo "<td class='rest_days'></td>";
+                        $whole_writer++;
+                        $seven_writer++; 
+                    }
+                }
+                echo "</tr>";
+                $liner++;
+            }
+        ?>
+    </table>
+</div>

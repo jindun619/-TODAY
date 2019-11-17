@@ -1,0 +1,492 @@
+/* 색상 */
+:root {
+    --main-color: red;
+    --sub-color: orange;
+    --bg-color: #FFEAEB;
+    --font-color: white;
+    --cal-str: #E8CADA;
+    --cal-weak: white;
+}
+
+.toggle_menu {
+    display: none;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+#whole_wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+/* 헤드 */
+#head {
+    width: 100%;
+    height: 20rem;
+    background-color: var(--bg-color);
+}
+#head .loginout {
+    width: auto;
+    height: 1.3em;
+    padding: 0.2em;
+    margin-right: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--main-color);
+    color: var(--font-color);
+    border: none;
+    font-size: 3rem;
+    font-weight: bold;
+    float: left;
+}
+#head .langb {
+    width: auto;
+    height: 1.3em;
+    padding: 0.2em;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--main-color);
+    color: var(--font-color);
+    border: none;
+    font-size: 3rem;
+    font-weight: bold;
+    float: right;
+}
+#head .bene {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1em;
+    font-size: 5rem;
+    text-decoration-line: none;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+/* 미들 */
+#middle {
+    width: 100%;
+    height: 1.5em;
+    background-color: var(--main-color);
+    text-align: center;
+    font-size: 4rem;
+}
+#middle span {
+    color: var(--font-color);
+    font-size: 4rem;
+}
+#middle i {
+    display: inline;
+    font-size: 4rem;
+    color: var(--font-color);
+}
+#middle a {
+    text-decoration: none;
+    color: var(--sub-color);
+}
+#middle #visits {
+    float: right;
+    margin-right: 1em;
+    text-decoration: underline;
+}
+
+
+/* blr */
+#blr {
+    width: 100%;
+    height: 1.5em;
+    font-size: 4rem;
+    color: var(--font-color);
+    background-color: var(--main-color);
+    text-align: center;
+}
+#blr a {
+    text-decoration: none;
+    color: var(--font-color);
+}
+.bld_box {
+    display: inline-block;
+    width: 100%;
+    height: 1.5em;
+    margin-top: 1em;
+    font-size: 5rem;
+    color: var(--font-color);
+    background-color: var(--sub-color);
+    text-align: center;;
+}
+
+
+.notice {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    margin-top: 1em;
+    color: var(--font-color);
+    background-color: var(--main-color);
+    text-align: center;
+    font-size: 4rem;
+}
+.notice a {
+    color: var(--sub-color);
+    text-decoration: none;
+    font-size: 4rem;
+}
+
+
+/* 달력 */
+.container-small {
+    display: flex;
+}
+.cal_open {
+    width: 100%;
+    height: auto;
+    background-color: var(--bg-color);
+}
+ .cal_lr{
+    float: left;
+    width: 10vw;
+    text-align: center;
+}
+.cal_lr i {
+    display: inline;
+    font-size: 5rem;
+    color: var(--main-color);
+}
+.cal_lr a {
+    text-decoration: none;
+}
+#cal_box {
+    width: 80vw;
+    height: 100%;
+    float: left;
+    background-color: grey;
+}
+#cal_box table {
+    table-layout: fixed;
+    width: 100%;
+}
+#cal_box td {
+    height: auto;
+    text-align: center;
+    background-color: var(--cal-weak);
+    font-size: 3rem;
+}
+#cal_box td input {
+    width: 100%;
+    height: 100%;
+    background-color: var(--cal-weak);
+    font-size: 3rem;
+    border: 0;
+    -webkit-appearance: none;
+}
+#cal_box td[class="cal_days"] {
+    background-color: var(--cal-str);
+}
+#cal_box td[class="rest_days"] {
+    background-color: var(--bg-color);
+}
+#cal_box .today {
+    color: var(--font-color);
+    background-color: var(--sub-color);
+}
+
+
+/* 바디 */
+#body {
+    width: 100%;
+    height: auto;
+    background-color: var(--bg-color);
+}
+#container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.menu_box {
+    display: inline-block;
+    background-color: orange;
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--font-color);
+}
+.menu_box .name_box {
+    width: 100%;
+    height: 1.5em;
+    font-size: 4rem;
+    background-color: var(--main-color);
+}
+.menu_box .pic_box img {
+    width: 100%;
+}
+
+
+/* 푸터 */
+#footer {
+    width: 100vw;
+    height: auto;
+    background-color: #2B5566;
+}
+#footer footer {
+    display: inline-block;
+    width: 100%;
+    height: auto;;
+    margin-top: 1em;
+    font-size: 5rem;
+}
+#footer footer .footer_cate {
+    border-bottom: 3px solid var(--font-color);
+}
+#footer footer .footer_cont:clicked {
+    background-color: gray;
+}
+#footer footer a {
+    display: block;
+    height: auto;
+    padding-left: 2em;
+    font-size: 2.5rem;
+    color: var(--font-color);
+    text-decoration: none;
+}
+#gray_logo {
+    margin-top: 2em;
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--font-color);
+}
+#rights {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--font-color);
+}
+/* 브레드 */
+.bread {
+    display: inline-block;
+    margin-left: 1em;
+    margin-top: 2em;
+    margin-bottom: 3em;
+    font-size: 3rem;
+}
+.bread a {
+    text-decoration: none;
+    font-size: 3rem;
+    color: var(--sub-color);
+}
+.bread i {
+    font-size: 3rem;
+    color: black;
+}
+
+
+/* about_zhenhua */
+#vision_box {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 3em;
+    font-size: 3rem;
+    text-align: center;
+}
+#vision_box p {
+    font-size: 5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: #dddddd;
+}
+
+
+/* Feedback */
+#feedback_wrapper {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* 로그인 */
+#login_container {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#login_container form {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    font-size: 4rem;
+    margin-top: 1em;
+    text-align: center;
+    background-color: #eeeeee;
+}
+#login_container input {
+    width: 10em;
+    height: 1.5em;
+    margin-bottom: 0.5em;
+    font-size: 4rem;
+    border: 0;
+    outline: none; 
+}
+#login_container input:focus {
+    outline: 2px solid var(--main-color);
+}
+#login_container input[type="text"] {
+    margin-top: 1em;
+}
+#login_container input[type="submit"] {
+    background-color: var(--main-color);
+    color: var(--font-color);
+    -webkit-appearance: none;
+}
+
+
+
+/* INPUT */
+#input_container {
+    display: inline-block;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: auto;
+}
+#input_container .name_box {
+    width: 100%;
+    height: 1.5em;
+    font-size: 4rem;
+    background-color: var(--main-color);
+}
+#input_container .name_box a {
+    color: var(--font-color);
+    text-decoration: none;
+}
+#input_container .pic_box {
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--sub-color);
+}
+#input_container .pic_box img {
+    width: 100%;
+    height: auto;;
+}
+/* input food */
+#input_container form {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#input_form input[type="text"], #input_form input[type="submit"] {
+    width: 80%;
+    height: auto;
+    font-size: 5rem;
+    margin-top: 1em;
+    border: 2px solid var(--main-color);
+    background-color: var(--font-color);
+}
+#input_form p {
+    display: inline-block;
+    font-size: 5rem;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+#input_form input[type="checkbox"] {
+    width: 3rem;
+    height: 3rem;
+}
+#input_form input[type="file"] {
+    font-size: 3rem;
+    margin-bottom: 1em;
+}
+#input_form .added_food {
+    width: 100%;
+    font-size: 5rem;
+    border: 2px solid var(--main-color);
+    margin-top: 2em;
+    background-color: var(--font-color);
+    color: var(--sub-color);
+}
+#input_form input[type="date"] {
+    width: 80%;
+    font-size: 5rem;
+    text-align: center;
+    border: 2px solid var(--main-color);
+    margin-top: 1em;
+}
+#input_form select {
+    width: 80%;
+    height: 1.5em;
+    font-size: 4rem;
+    text-align-last: center;
+    border: 2px solid var(--main-color);
+    margin-top: 1em;
+}
+.see_table {
+    text-align: center;
+}
+.see_table button {
+    margin-top: 3em;
+    text-align: center;
+    font-size: 4rem;
+}
+.table {
+    display: none;
+    width: 60%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    font-size: 4rem;
+    border: 1px solid black;
+}
+.table td {
+    font-size: 2rem;
+    padding: 1em;
+    border: 1px solid black;
+}
+
+
+/* auto-complete */
+.suggestions {
+    border-left: 2px solid var(--main-color);
+    border-right: 2px solid var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+    border-top: none;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--font-color);
+}
+.suggestions div {
+    font-size: 5rem;
+    border-top: 1px solid var(--sub-color);
+}
+
+
+/* food_table */
+#food_table {
+    display: fixed;
+    width: 100%;
+    font-size: 2rem;
+    line-height: 2em;
+}
+#food_table tr {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#food_table td {
+    border: 1px solid black;
+}
+#food_table .td_date {
+    width: 30%;
+    text-align: center;
+}
+#food_table .td_content {
+    width: 70%;
+    text-align: center;
+}

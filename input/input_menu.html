@@ -1,0 +1,148 @@
+<?php
+    session_start();
+    include "../function.php";
+    include "../months_lib.php";
+    $conn = conn_db();
+
+    $query_users = "SELECT * FROM users";     //authority = 0 means administer
+    $result_users = mysqli_query($conn, $query_users);
+    while ($row = mysqli_fetch_assoc($result_users)) {
+        $users[] = $row;
+    }
+
+    
+    /* checking identity */
+    //check if logged-in
+    if (!isset($_SESSION['login'])) {
+        $_SESSION['from'] = "input/input.html";
+        header("Location:../login.html");
+        exit();
+    }
+    //find him/her in users, get authority
+    foreach ($users as $key => $value) {
+        if ($users[$key]['id_num'] == $_SESSION['login']) {
+            $auth = $users[$key]['authority'];
+            break;
+        }
+    }
+    //check if admin
+    if ($auth !== "0") {
+        $_SESSION['error'] = "not_admin";
+        header("Location:../index.html");
+        exit();
+    }
+
+
+    /* getting food data */
+    $query_food = "SELECT * FROM food";
+    $result_food = mysqli_query($conn, $query_food);
+    while ($row = mysqli_fetch_assoc($result_food)) {
+        $food[] = $row;
+    }
+
+
+    /* getting menu data */
+    $query_menu = "SELECT * FROM food_date";
+    $result_menu = mysqli_query($conn, $query_menu);
+    while ($row = mysqli_fetch_assoc($result_menu)) {
+        $menu[] = $row;
+    }
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>input.html</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div id="whole_wrapper">
+        <div id="head">
+            <a href="../index.html" class="bene">振华TODAY</a>
+        </div>
+        <div id="middle">
+            <span>메뉴 등록 페이지</span>
+        </div>
+        <div id="body">
+            <div id="input_container">
+                <form action="input.php" method="POST" id="input_form">
+                    <input type="date" name="date"><br>
+                    <select name="bld">
+                        <option value="0">아침</option>
+                        <option value="1">점심</option>
+                        <option value="2">저녁</option>
+                    </select>
+                    <br>
+                        <input type="text" name="soup" placeholder="국"><br>
+                        <div class="suggestions"></div>
+                        <input type="text" name="food1" placeholder="음식1"><br>
+                        <div class="suggestions"></div>
+                        <input type="text" name="food2" placeholder="음식2"><br>
+                        <div class="suggestions"></div>
+                        <input type="text" name="food3" placeholder="음식3"><br>
+                        <div class="suggestions"></div>
+                        <input type="text" name="food4" placeholder="음식4"><br>
+                        <div class="suggestions"></div>
+                        <input type="text" name="food5" placeholder="음식5"><br>
+                        <div class="suggestions"></div>
+                    <input type="submit" name="date_submit" value="등록">
+                </form>
+                <div id="see_food_list" class="see_table"><button>음식 리스트 보기</button></div>
+                <div id="food_list" class="table">
+                    <table>
+                        <tr>
+                            <td>아이디</td>
+                            <td>한국이름</td>
+                            <td>중국이름</td>
+                        </tr>
+                    <?
+                        foreach ($food as $key => $value) {
+                            echo "
+                                <tr>
+                                    <td>".$value['id']."</td>
+                                    <td>".$value['kor_name']."</td>
+                                    <td>".$value['cna_name']."</td>
+                                    </tr>";
+                        }
+                    ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const inputMenuForm = document.querySelector("#input_form"),
+            inputMenuInput = inputMenuForm.querySelectorAll("input");
+        var food = <?php echo json_encode($food);?>;
+
+        function paintAutos(obj) {
+
+        }
+
+        function loadAutos () {
+            currentLength = inputMenuInput.value.length;
+            currentValue = inputMenuInput.value;
+            console.log(currentLength, currentValue);
+            const selectedFood = food.filter(function(value){
+                currentValue === value.kor_name.substr(0, currentLength);
+            })
+            console.log(selectedFood);
+        }
+
+        function acInit() {
+            inputMenuForm.addEventListener("keydown", loadAutos);
+        }
+    </script>
+</body>
+</html>
+<!--
+<div class="suggestions">
+    <div>제안1</div>
+    <div>제안2</div>
+    <div>제안3</div>
+</div>
+<div class="added_food">
+    앙기모띠
+</div>
+-->

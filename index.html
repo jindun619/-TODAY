@@ -1,0 +1,311 @@
+<?php
+        session_start();
+
+
+        
+
+        /* <error center> */
+        if ($_SESSION['error'] == "not_admin") {
+            unset($_SESSION['error']);
+            echo "<script>alert('권한이 없습니다!');</script>";
+        }
+
+
+        /* language session */
+        if (!isset($_SESSION['lang'])) {
+            $_SESSION['lang'] = "kor";
+        }
+
+
+        /* including */
+        include "function.php";
+        include "words_lib.php";
+    
+
+        /*connect db */
+        $conn = conn_db ();
+    
+
+        /* getting users' data */
+        $query_users = "SELECT * FROM users";     //authority = 0 means administer
+        $result_users = mysqli_query($conn, $query_users);
+        while ($row = mysqli_fetch_assoc($result_users)) {
+            $users[] = $row;
+        }
+        //find him/her in users, get name
+        foreach ($users as $key => $value) {
+            if ($users[$key]['id_num'] == $_SESSION['login']) {
+                $user_name = $users[$key]['name'];
+                break;
+            }
+        }
+
+        /* getting today's data */
+        $tdate = date("Y-m-d");
+        $tdow = date("l");
+
+        
+        /*setting displayed year_month_date*/
+        //if $_SESSION is empty, it's today
+        if (!isset($_SESSION['set_year'])) {
+            $_SESSION['set_year'] = substr($tdate, 0, 4);
+        }
+        if (!isset($_SESSION['set_month'])) {
+            $_SESSION['set_month'] = substr($tdate, 5, 2);
+        }
+        if (!isset($_SESSION['set_day'])) {
+            $_SESSION['set_day'] = substr($tdate, 8, 2);
+        }
+        if (!isset($_SESSION['set_dow'])) {
+            $_SESSION['set_dow'] = $tdow;
+        }
+        //setting displayed date
+        $set_year = $_SESSION['set_year']; 
+        $set_month = $_SESSION['set_month'];
+        $set_day = $_SESSION['set_day'];
+        $set_date = $set_year."-".$set_month."-".$set_day;
+
+
+        /* getting food_date[] */
+        $query_food_date = "SELECT * FROM food_date";
+        $result_food_date = mysqli_query($conn, $query_food_date);
+        while ($row = mysqli_fetch_assoc($result_food_date)) {
+            $food_date[] = $row;
+        }
+
+
+        //getting information about today(b,l,d)'s
+        $query_fd = "SELECT soup, food1, food2, food3, food4, food5 FROM food_date WHERE date = '$set_date' ORDER BY bld";
+        $result_fd = mysqli_query($conn, $query_fd);
+        $today = array();
+        while ($row = mysqli_fetch_assoc($result_fd)) {
+            $today[] = $row;
+        }
+        $bf = $today[0]; //breakfast row
+        $lc = $today[1]; //lunch row
+        $dn = $today[2]; //dinner row
+        $bf_array = array();
+        $lc_array = array();
+        $dn_array = array();
+        //make food array
+        $query_food = "SELECT * FROM food";
+        $result_food = mysqli_query($conn, $query_food);
+        while ($row = mysqli_fetch_assoc($result_food)) {
+            $tmp_food[] = $row;
+        }
+        //key id =   id_num
+        foreach ($tmp_food as $key => $value) {
+            $food[$value['id']] = $value;
+        }
+        
+
+        /* 오늘의 메뉴 정보를 가지고있는 배열 만들기 */
+        //아침
+        foreach ($bf as $key => $value) {
+            $query_food = "SELECT * FROM food WHERE id = '$value'";
+            $result_food = mysqli_query($conn, $query_food);
+            while ($row = mysqli_fetch_assoc($result_food)) {
+                $food_array[] = $row;
+            }
+            $bf_kor = $food_array[0]['kor_name'];
+            $bf_img = $food_array[0]['id'].".".$food_array[0]['img_ext'];
+            $bf_cna = $food_array[0]['cna_name'];
+            $tmp = array(   
+                            'kor_name' => $bf_kor,
+                            'img' => $bf_img,
+                            'cna_name' => $bf_cna);
+            $bf_array[] = $tmp;
+    
+            $food_array = array();                                      //loop는 초기화가 매우 중요하다..
+        }
+
+        //점심
+        foreach ($lc as $key => $value) {
+            $query_food = "SELECT * FROM food WHERE id = '$value'";
+            $result_food = mysqli_query($conn, $query_food);
+            while ($row = mysqli_fetch_assoc($result_food)) {
+                $food_array[] = $row;
+            }
+            $lc_kor = $food_array[0]['kor_name'];
+            $lc_img = $food_array[0]['id'].".".$food_array[0]['img_ext'];
+            $lc_cna = $food_array[0]['cna_name'];
+            $tmp = array(   
+                            'kor_name' => $lc_kor,
+                            'img' => $lc_img,
+                            'cna_name' => $lc_cna);
+            $lc_array[] = $tmp;
+    
+            $food_array = array();                                      //loop는 초기화가 매우 중요하다..
+        }
+
+        //저녁
+        foreach ($dn as $key => $value) {
+            $query_food = "SELECT * FROM food WHERE id = '$value'";
+            $result_food = mysqli_query($conn, $query_food);
+            while ($row = mysqli_fetch_assoc($result_food)) {
+                $food_array[] = $row;
+            }
+            $dn_kor = $food_array[0]['kor_name'];
+            $dn_img = $food_array[0]['id'].".".$food_array[0]['img_ext'];
+            $dn_cna = $food_array[0]['cna_name'];
+            $tmp = array(   
+                        'kor_name' => $dn_kor,
+                        'img' => $dn_img,
+                        'cna_name' => $dn_cna);
+            $dn_array[] = $tmp;
+    
+            $food_array = array();                                      //loop는 초기화가 매우 중요하다..
+        }
+        //0,1:empty 2:soup 3,4,5,6,7:food1~5
+        
+
+        //breakfast?lunch?dinner?
+        if (!isset($_SESSION['blr'])) {
+            $_SESSION['blr'] = 0;
+        }
+        if ($_SESSION['blr'] == 0) {
+            $now_array = $bf_array;
+            $blr = "아침";
+        } else if ($_SESSION['blr'] == 1) {
+            $now_array = $lc_array;
+            $blr = "점심";
+        } else if ($_SESSION['blr'] == 2) {
+            $now_array = $dn_array;
+            $blr = "저녁";
+        } else {
+            echo "wen ti chu xian zai session['blr']!";
+        }
+
+
+
+        /* language handling */
+        if ($_SESSION['lang'] == "kor") {   //KOREAN
+            //switching $words[]
+            foreach ($words_lib as $key => $value) {
+                $words[] = $value[0];
+            }
+            //converting food names
+            $final_array = array();
+            $final_array = array($now_array[3]['kor_name'],
+                                 $now_array[4]['kor_name'],
+                                 $now_array[5]['kor_name'],
+                                 $now_array[6]['kor_name'],
+                                 $now_array[7]['kor_name'],
+                                 $now_array[8]['kor_name']);
+            //converting blr
+            if ($blr == "早餐") {
+                $blr = "아침";
+            } else if ($blr == "午餐") {
+                $blr = "점심";
+            } else if ($blr == "晚餐") {
+                $blr = "저녁";
+            }
+        } else if ($_SESSION['lang'] == "cna") {    //CHINESE
+            //switching words[]
+            foreach ($words_lib as $key => $value) {
+                $words[] = $value[1];
+            }
+            //converting food names
+            $final_array = array();
+            $final_array = array($now_array[3]['cna_name'],
+                                 $now_array[4]['cna_name'],
+                                 $now_array[5]['cna_name'],
+                                 $now_array[6]['cna_name'],
+                                 $now_array[7]['cna_name'],
+                                 $now_array[8]['cna_name']);
+            //converting blr
+            if ($blr == "아침") {
+                $blr = "早餐";
+            } else if ($blr == "점심") {
+                $blr = "午餐";
+            } else if ($blr == "저녁") {
+                $blr = "晚餐";
+            }
+        }
+
+        /* setting displayed dow */
+        //ex)Sunday -> 일요일 or Ri
+        $set_dow = $_SESSION['set_dow'];
+        if ($set_dow == "Sunday") {
+            $set_dow = $words[6];
+        } else if ($set_dow == "Monday") {
+            $set_dow = $words[7];
+        } else if ($set_dow == "Tuesday") {
+            $set_dow = $words[8];
+        } else if ($set_dow == "Wednesday") {
+            $set_dow = $words[9];
+        } else if ($set_dow == "Thursday") {
+            $set_dow = $words[10];
+        } else if ($set_dow == "Friday") {
+            $set_dow = $words[11];
+        } else if ($set_dow == "Saturday") {
+            $set_dow = $words[12];
+        }
+
+
+        /* visitor counter */
+        $ip_address = $_SERVER['REMOTE_ADDR'];
+        $query_visits_insert = "INSERT INTO visits (ip_address, visit_date) VALUES ('$ip_address', '$tdate')";
+        mysqli_query($conn, $query_visits_insert);
+        $query_visits_select = "SELECT DISTINCT ip_address FROM visits WHERE visit_date = '$tdate'";
+        $visits_result = mysqli_query($conn, $query_visits_select);
+        $today_visits = mysqli_num_rows($visits_result);
+        // $today_visits = the number of distinct visitors today
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>오늘의 급식은? :: 振华TODAY</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/6a9889b649.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+        $(function(){
+            $(".toggle_button").click(function(){
+                $(".toggle_menu").slideToggle();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="whole_wrapper">
+        <div id="head">
+            <?if(isset($_SESSION['login'])){echo "<span class='loginout'>".$user_name.$words[1]."</span>";}?>
+            <a href="loginout.php" class="loginout"><?if(isset($_SESSION['login'])){echo $words[3];} else {echo $words[2];}?></a>
+            <?if ($_SESSION['login'] == 1 or $_SESSION['login'] == 2) {
+                echo "<a href='input/input.html' class='loginout'>음식/메뉴등록</a>";
+            }?>
+            <a href="lang_con.php" class="langb"><?echo $words[0];?></a>
+            <a href="http://zhenhuatoday.com" class="bene">振华TODAY</a>
+        </div>
+        <div id="middle">
+            <span><?echo $set_date."(".$set_dow.")";?></span>
+            <i class="toggle_button far fa-calendar-alt"></i>
+            <span id="visits"><?echo $today_visits;?></span>
+        </div>
+        <div class="container-small">
+            <div class="toggle_menu cal_open">
+                <div class="cal_lr">
+                    <a href="tmp_bridge/date_left.php"><i class="fas fa-chevron-left"></i></a>
+                </div>
+                <?include "calender.html";?>
+                <div class="cal_lr">
+                    <a href="tmp_bridge/date_right.php"><i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="middle">
+            <a href="tmp_bridge/to_today.php"><? echo $words[4];?></a>
+        </div>
+        <!--<div id="blr">
+            <a href="tmp_bridge/blr_left.php"><i class="fas fa-chevron-left"></i></a>
+            <span><?//echo $blr;?></span>
+            <a href="tmp_bridge/blr_right.php"><i class="fas fa-chevron-right"></i></a>
+        </div>-->
+        
+        <?include "body.html";?>
+        <?include "footer/footer.html";?>
+    </div>
+</body>
+</html>

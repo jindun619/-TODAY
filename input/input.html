@@ -1,0 +1,73 @@
+<?php
+    session_start();
+    include "../function.php";
+    $conn = conn_db();
+
+    $query = "SELECT * FROM users";     //authority = 0 means administer
+    $result = mysqli_query($conn, $query);
+    while ($row = mysqli_fetch_assoc($result)) {
+        $users[] = $row;
+    }
+
+    
+    /* checking identity */
+    //check if logged-in
+    if (!isset($_SESSION['login'])) {
+        $_SESSION['from'] = "input/input.html";
+        header("Location:../login.html");
+        exit();
+    }
+    //find him/her in users, get authority
+    foreach ($users as $key => $value) {
+        if ($users[$key]['id_num'] == $_SESSION['login']) {
+            $auth = $users[$key]['authority'];
+            break;
+        }
+    }
+    //check if admin
+    if ($auth !== "0") {
+        $_SESSION['error'] = "not_admin";
+        header("Location:../index.html");
+        exit();
+    }
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>등록 페이지 (관리자)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div id="whole_wrapper">
+        <div id="head">
+            <a href="lang_con.php" class="langb"><?echo $lang;?></a>
+            <a href="../index.html" class="bene">振华TODAY</a>
+        </div>
+        <div id="middle">
+            <span>음식/메뉴 등록 페이지</span>
+        </div>
+        <div id="body">
+            <div id="container">
+                <div id="input_container">
+                    <div class="name_box">
+                        <a href="input_food.html">음식 등록하러 가기</a>
+                    </div>
+                    <div class="pic_box">
+                        <img src="../img/add_food.png">
+                    </div>
+                </div>
+                <div id="input_container">
+                    <div class="name_box">
+                        <a href="input_menu.html">메뉴 등록하러 가기</a>
+                    </div>
+                    <div class="pic_box">
+                        <img src="../img/add_menu.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

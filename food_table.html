@@ -1,0 +1,122 @@
+<?php
+    session_start();
+    include "function.php";
+    include "months_lib.php";
+    include "words_lib.php";
+    $conn = conn_db();
+
+
+    /* language handling */
+    if ($_SESSION['lang'] == "kor") {   //KOREAN
+        //switching $words[]
+        foreach ($words_lib as $key => $value) {
+            $words[] = $value[0];
+        }
+    } else if ($_SESSION['lang'] == "cna") {    //CHINESE
+        //switching $words[]
+        foreach ($words_lib as $key => $value) {
+            $words[] = $value[1];
+        }
+    }
+
+
+
+    $set_year = $_SESSION['set_year'];
+    $set_month = $_SESSION['set_month'];
+    $set_day = $_SESSION['set_day'];
+
+
+    $query_food = "SELECT * FROM food";
+    $result_food = mysqli_query($conn, $query_food);
+    while ($row = mysqli_fetch_assoc($result_food)) {
+        $tmp_food[] = $row;
+    }
+    foreach ($tmp_food as $key => $value) {
+        $food[$value['id']] = $value;
+    }
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>오늘의 급식은? :: 振华TODAY</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/6a9889b649.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <div id="whole_wrapper">
+        <div id="head">
+            <a href="http://zhenhuatoday.com" class="bene">振华TODAY</a>
+        </div>
+        <div id="middle">
+            <span><?echo $words[17];?></span>
+        </div>
+        <div id="body">
+            <div class="bread">
+                <a href="../index.html">振华today</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="#">Food Table</a>
+            </div>
+            <table id="food_table">
+                <?php
+                    //transfer into kor/cna name
+                    for ($i=0; $i <= 6; $i++) { 
+                        //set clear
+                        unset($food_menu);
+                        unset($tsf_menu);
+                        unset($echo_menu);
+
+
+                        $date = date("Y-m-d", strtotime("+$i days"));
+                        $query_menu = "SELECT soup, food1, food2, food3, food4, food5 FROM food_date WHERE date='$date' ORDER BY bld";
+                        $result_menu = mysqli_query($conn, $query_menu);
+                        while ($row = mysqli_fetch_assoc($result_menu)) {
+                            $food_menu[] = $row;
+                        }
+                        //kor
+                        if ($_SESSION['lang'] == "kor") {
+                            for ($t=0; $t <= 2; $t++) { 
+                                foreach ($food_menu[$t] as $key => $value) {
+                                    if ($value !== "0") {
+                                        $tsf_menu[$t][] = $food[$value]['kor_name'];
+                                    }
+                                }
+                                //making a string for echo
+                                foreach ($tsf_menu[$t] as $key => $value) {
+                                        $echo_menu[$t] = $echo_menu[$t].$value."/";
+                                }
+                            }
+                        } /* cna */ else if ($_SESSION['lang'] == "cna") {
+                            for ($t=0; $t <= 2; $t++) { 
+                                foreach ($food_menu[$t] as $key => $value) {
+                                    if ($value !== "0") {
+                                        $tsf_menu[$t][] = $food[$value]['cna_name'];
+                                    }
+                                }
+                                //making a string for echo
+                                foreach ($tsf_menu[$t] as $key => $value) {
+                                        $echo_menu[$t] = $echo_menu[$t].$value."/";
+                                }
+                            }
+                        }
+
+
+                        echo '
+                            <tr>
+                                <td class="td_date">'.$date.'</td>
+                                <td class="td_content">';
+                        echo        $words[14].": ".$echo_menu[0]."<br>";
+                        echo        $words[15].": ".$echo_menu[1]."<br>";
+                        echo        $words[16].": ".$echo_menu[2];
+                        echo '  </td>
+                            </tr>
+                        ';
+                    }
+                ?>
+            </table>
+        </div>
+        <?include "footer/footer.html";?>
+    </div>
+</body>
+</html>
