@@ -5,6 +5,8 @@
 ## 1) What is 振华TODAY
 ### 1.1 A brief introduction
 [振华TODAY](http://zhenhuatoday.com) is a **website** that shows the **school meals** of [沧州振华国际学校](http://www.pk-edu.com/) in advance.
+>The picture below(↓) is the screenshot on Oct 9, 2019
+![first_day pic](img/first_day.jpg)
 ### 1.2 History
 - [振华TODAY](http://zhenhuatoday.com) was first planned in **June 2019**.
 - [振华TODAY](http://zhenhuatoday.com) was officially deployed on **Oct 9, 2019**, and the number of visitors of this date was **99**.
